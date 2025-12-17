@@ -24,14 +24,40 @@ public class Ticket
 
     private List<Receipt> _allReceipts = new List<Receipt>();
 
-    public void purchaseTicket(double price, DateTime date)
+    public void purchaseTicket(DateTime date)
     {
+        double price = 0;
         travelClass.Add("Coach", 450.00);
         travelClass.Add("Business", 675.00);
         travelClass.Add("Premium", 900.00);
         travelClass.Add("Roomette", 1325.00);
         travelClass.Add("Room", 1750.00);
         travelClass.Add("Family Room", 2175.00);
+
+        // if (travelClass.ContainsKey("Coach"))
+        // {
+        //     price = Convert.ToDouble(travelClass.Values);
+        // }
+
+        try
+        {
+            Console.WriteLine("value = {0}.",
+            travelClass["Coach"]);
+            Console.WriteLine("value = {0}.",
+            travelClass["Business"]);
+            Console.WriteLine("value = {0}.",
+            travelClass["Premium"]);
+            Console.WriteLine("value = {0}.",
+            travelClass["Roomette"]);
+            Console.WriteLine("value = {0}.",
+            travelClass["Room"]);
+            Console.WriteLine("value = {0}.",
+            travelClass["Family Room"]);
+        }
+        catch(KeyNotFoundException)
+        {
+            Console.WriteLine("Value not found");
+        }
 
         Price = price;
         double tax = Price * Tax;
