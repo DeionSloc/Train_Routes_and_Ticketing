@@ -1,3 +1,4 @@
+using System.Formats.Asn1;
 using System.Text.RegularExpressions;
 using Locomotive;
 
@@ -11,6 +12,7 @@ public class Ticket
     public string Destination { get; set; }
     public string TravelClass { get; set; }
     public double TotalAmount { get; set; }
+    public double CoachPrice { get; set; }
     public Dictionary<string, double> travelClass = new Dictionary<string, double>();
 
     public Ticket(string origin, string destination, string travelClass)
@@ -33,50 +35,74 @@ public class Ticket
         travelClass.Add("Roomette", 1325.00);
         travelClass.Add("Room", 1750.00);
         travelClass.Add("Family Room", 2175.00);
-
-        // if (travelClass.ContainsKey("Coach"))
-        // {
-        //     price = Convert.ToDouble(travelClass.Values);
-        // }
-
-        try
+        
+        if(travelClass.ContainsKey("Coach"))
         {
-            Console.WriteLine("value = {0}.",
-            travelClass["Coach"]);
-            Console.WriteLine("value = {0}.",
-            travelClass["Business"]);
-            Console.WriteLine("value = {0}.",
-            travelClass["Premium"]);
-            Console.WriteLine("value = {0}.",
-            travelClass["Roomette"]);
-            Console.WriteLine("value = {0}.",
-            travelClass["Room"]);
-            Console.WriteLine("value = {0}.",
-            travelClass["Family Room"]);
+            price = travelClass["Coach"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
         }
-        catch(KeyNotFoundException)
+        else if(travelClass.ContainsKey("Premium"))
         {
-            Console.WriteLine("Value not found");
+            price = travelClass["Premium"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
         }
-
-        Price = price;
-        double tax = Price * Tax;
-        tax = Math.Round(tax, 2);
-        double totalAmount = Price + tax;
-        TotalAmount = Math.Round(totalAmount, 2);
-        if(price <= 0)
+        else if(travelClass.ContainsKey("Roomette"))
+        {
+            price = travelClass["Roomette"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
+        }
+        else if(travelClass.ContainsKey("Roomette"))
+        {
+            price = travelClass["Roomette"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
+        }
+         else if(travelClass.ContainsKey("Room"))
+        {
+            price = travelClass["Room"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
+        }
+         else if(travelClass.ContainsKey("Family Room"))
+        {
+            price = travelClass["Family Room"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
+        }
+        else
         {
             throw new ArgumentOutOfRangeException(nameof(price), "Ticket price can't be empty");
         }
 
-        var receipt = new Receipt(price, tax, Origin, Destination, TravelClass, date);
+
+        var receipt = new Receipt(price, Tax, Origin, Destination, TravelClass, date);
         _allReceipts.Add(receipt);
     }
 
     public string getReceipt()
     {
         var report = new System.Text.StringBuilder();
-        double price = 0;
         report.AppendLine("Price\tTax\tTotal\tOrigin\t\t\tStop\t\tTravel Class\tDate");
         foreach(var item in _allReceipts)
         {
