@@ -26,7 +26,7 @@ public class Ticket
 
     private List<Receipt> _allReceipts = new List<Receipt>();
 
-    public void purchaseTicket(DateTime date)
+    public double purchaseTicket(DateTime date)
     {
         double price = 0;
         travelClass.Add("Coach", 450.00);
@@ -98,6 +98,7 @@ public class Ticket
 
         var receipt = new Receipt(price, Tax, Origin, Destination, TravelClass, date);
         _allReceipts.Add(receipt);
+        return TotalAmount;
     }
 
     public string getReceipt()
