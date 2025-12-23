@@ -12,7 +12,7 @@ public class Ticket
     public string Destination { get; set; }
     public string TravelClass { get; set; }
     public double TotalAmount { get; set; }
-    public double CoachPrice { get; set; }
+    public double SalesPrice { get; set; }
     public Dictionary<string, double> travelClass = new Dictionary<string, double>();
 
     public Ticket(string origin, string destination, string travelClass)
@@ -36,57 +36,57 @@ public class Ticket
         travelClass.Add("Room", 1750.00);
         travelClass.Add("Family Room", 2175.00);
         
-        if(travelClass.ContainsKey("Coach"))
+        if(travelClass.TryGetValue("Coach", out price))
         {
-            price = travelClass["Coach"];
             Price = price;
             double tax = Price * Tax;
             tax = Math.Round(tax, 2);
+            Tax = tax;
             double totalAmount = Price + tax;
             TotalAmount = Math.Round(totalAmount, 2);
         }
-        else if(travelClass.ContainsKey("Premium"))
+        else if(travelClass.TryGetValue("Business", out price))
         {
-            price = travelClass["Premium"];
             Price = price;
             double tax = Price * Tax;
             tax = Math.Round(tax, 2);
+            Tax = tax;
             double totalAmount = Price + tax;
             TotalAmount = Math.Round(totalAmount, 2);
         }
-        else if(travelClass.ContainsKey("Roomette"))
+        else if(travelClass.TryGetValue("Premium", out price))
         {
-            price = travelClass["Roomette"];
             Price = price;
             double tax = Price * Tax;
             tax = Math.Round(tax, 2);
+            Tax = tax;
             double totalAmount = Price + tax;
             TotalAmount = Math.Round(totalAmount, 2);
         }
-        else if(travelClass.ContainsKey("Roomette"))
+        else if(travelClass.TryGetValue("Roomette", out price))
         {
-            price = travelClass["Roomette"];
             Price = price;
             double tax = Price * Tax;
             tax = Math.Round(tax, 2);
+            Tax = tax;
             double totalAmount = Price + tax;
             TotalAmount = Math.Round(totalAmount, 2);
         }
-         else if(travelClass.ContainsKey("Room"))
+         else if(travelClass.TryGetValue("Room", out price))
         {
-            price = travelClass["Room"];
             Price = price;
             double tax = Price * Tax;
             tax = Math.Round(tax, 2);
+            Tax = tax;
             double totalAmount = Price + tax;
             TotalAmount = Math.Round(totalAmount, 2);
         }
-         else if(travelClass.ContainsKey("Family Room"))
+         else if(travelClass.TryGetValue("Family Room", out price))
         {
-            price = travelClass["Family Room"];
             Price = price;
             double tax = Price * Tax;
             tax = Math.Round(tax, 2);
+            Tax = tax;
             double totalAmount = Price + tax;
             TotalAmount = Math.Round(totalAmount, 2);
         }
