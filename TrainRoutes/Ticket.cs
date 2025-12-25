@@ -1,4 +1,8 @@
+using System.ComponentModel.Design;
 using System.Formats.Asn1;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using Locomotive;
 
@@ -35,66 +39,89 @@ public class Ticket
         travelClass.Add("Roomette", 1325.00);
         travelClass.Add("Room", 1750.00);
         travelClass.Add("Family Room", 2175.00);
-        
-        if(travelClass.TryGetValue("Coach", out price))
+
+        // foreach(var item in travelClass)
+        // {
+        //     if(item.Key == TravelClass)
+        //     {
+        //         price = item.Value;
+        //         return price;
+        //     }
+
+        //     Price = price;
+        //     double tax = Price * Tax;
+        //     tax = Math.Round(tax, 2);
+        //     Tax = tax;
+        //     double totalAmount = Price + tax;
+        //     TotalAmount = Math.Round(totalAmount, 2);
+        //     break;
+        // }
+
+        if(TravelClass == "Coach")
         {
+            price = travelClass["Coach"];
             Price = price;
             double tax = Price * Tax;
             tax = Math.Round(tax, 2);
             Tax = tax;
             double totalAmount = Price + tax;
             TotalAmount = Math.Round(totalAmount, 2);
-        }
-        else if(travelClass.TryGetValue("Business", out price))
-        {
-            Price = price;
-            double tax = Price * Tax;
-            tax = Math.Round(tax, 2);
-            Tax = tax;
-            double totalAmount = Price + tax;
-            TotalAmount = Math.Round(totalAmount, 2);
-        }
-        else if(travelClass.TryGetValue("Premium", out price))
-        {
-            Price = price;
-            double tax = Price * Tax;
-            tax = Math.Round(tax, 2);
-            Tax = tax;
-            double totalAmount = Price + tax;
-            TotalAmount = Math.Round(totalAmount, 2);
-        }
-        else if(travelClass.TryGetValue("Roomette", out price))
-        {
-            Price = price;
-            double tax = Price * Tax;
-            tax = Math.Round(tax, 2);
-            Tax = tax;
-            double totalAmount = Price + tax;
-            TotalAmount = Math.Round(totalAmount, 2);
-        }
-         else if(travelClass.TryGetValue("Room", out price))
-        {
-            Price = price;
-            double tax = Price * Tax;
-            tax = Math.Round(tax, 2);
-            Tax = tax;
-            double totalAmount = Price + tax;
-            TotalAmount = Math.Round(totalAmount, 2);
-        }
-         else if(travelClass.TryGetValue("Family Room", out price))
-        {
-            Price = price;
-            double tax = Price * Tax;
-            tax = Math.Round(tax, 2);
-            Tax = tax;
-            double totalAmount = Price + tax;
-            TotalAmount = Math.Round(totalAmount, 2);
-        }
-        else
-        {
-            throw new ArgumentOutOfRangeException(nameof(price), "Ticket price can't be empty");
         }
 
+        else if(TravelClass == "Business")
+        {
+            price = travelClass["Business"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            Tax = tax;
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
+        }
+
+        else if(TravelClass == "Premium")
+        {
+            price = travelClass["Premium"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            Tax = tax;
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
+        }
+
+         else if(TravelClass == "Roomette")
+        {
+            price = travelClass["Roomette"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            Tax = tax;
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
+        }
+
+         else if(TravelClass == "Room")
+        {
+            price = travelClass["Room"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            Tax = tax;
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
+        }
+
+        else
+        {
+            price = travelClass["Family Room"];
+            Price = price;
+            double tax = Price * Tax;
+            tax = Math.Round(tax, 2);
+            Tax = tax;
+            double totalAmount = Price + tax;
+            TotalAmount = Math.Round(totalAmount, 2);
+        }
 
         var receipt = new Receipt(price, Tax, Origin, Destination, TravelClass, date);
         _allReceipts.Add(receipt);

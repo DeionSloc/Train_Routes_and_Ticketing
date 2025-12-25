@@ -7,8 +7,9 @@ var ticket2 = new Ticket("Raleigh, NC", "Yonkers, NY", "Business");
 ticket1.purchaseTicket(DateTime.Now);
 ticket2.purchaseTicket(DateTime.Now);
 
-Console.WriteLine($"All abord for the {train1.Line}! We'll be moving at an operating speed of {train1.Speed} mph on an {train1.Locomotive} locomotive powering the train. The gauge is: {train1.Gauge}");
 Console.WriteLine($"Your ticket number is: {ticket1.ticketNumber}, and your total for the trip will be {ticket1.TotalAmount}. You will be traveling to {ticket1.Destination} in {ticket1.TravelClass} class");
+
+Console.WriteLine($"Your ticket number is: {ticket2.ticketNumber}, and your total for the trip will be {ticket2.TotalAmount}. You will be traveling to {ticket2.Destination} in {ticket2.TravelClass} class");
+
 Console.WriteLine(ticket1.getReceipt());
 Console.WriteLine(ticket2.getReceipt());
-// Console.WriteLine(ticket2.Price);
