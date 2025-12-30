@@ -9,7 +9,7 @@ using Locomotive;
 public class Ticket
 {
     private static int s_ticketNumber = 0000000000;
-    private static double Tax = 0.088;
+    private static readonly double Tax = 0.088;
     public string ticketNumber { get; }
     public double Price { get; set; }
     public string Origin { get; set; }
@@ -17,7 +17,16 @@ public class Ticket
     public string TravelClass { get; set; }
     public double TotalAmount { get; set; }
     public double SalesPrice { get; set; }
-    public Dictionary<string, double> travelClass = new Dictionary<string, double>();
+    private List<Receipt> _allReceipts = new List<Receipt>();
+    public Dictionary<string, double> travelClass = new Dictionary<string, double>
+    {
+        {"Coach", 450.00},
+        {"Business", 675.00},
+        {"Premium", 900.00},
+        {"Roomette", 1325.00},
+        {"Room", 1750.00},
+        {"Family Room", 2175.00},
+    };
 
     public Ticket(string origin, string destination, string travelClass)
     {
@@ -27,105 +36,18 @@ public class Ticket
         ticketNumber = s_ticketNumber.ToString();
         s_ticketNumber++;
     }
-
-    private List<Receipt> _allReceipts = new List<Receipt>();
-
     public double purchaseTicket(DateTime date)
     {
-
-        travelClass.Add("Coach", 450.00);
-        travelClass.Add("Business", 675.00);
-        travelClass.Add("Premium", 900.00);
-        travelClass.Add("Roomette", 1325.00);
-        travelClass.Add("Room", 1750.00);
-        travelClass.Add("Family Room", 2175.00);
-
-        foreach(var (key, value) in travelClass)
+        if (!travelClass.ContainsKey(TravelClass))
         {
-            string selection = key;
-            double price = value;
-
-            if (selection == TravelClass)
-            {
-                return price;
-            }
-            
-            Price = price;
-            double tax = Price * Tax;
-            tax = Math.Round(tax, 2);
-            Tax = tax;
+            throw new ArgumentException("Invalid travel class.");
+        }            
+            Price = travelClass[TravelClass];
+            double tax = Math.Round(Price * Tax, 2);
             double totalAmount = Price + tax;
             TotalAmount = Math.Round(totalAmount, 2);
-            break;
-        }
-
-        // if(TravelClass == "Coach")
-        // {
-        //     double coachPrice = travelClass["Coach"];
-        //     Price = coachPrice;
-        //     double coachTax = Price * Tax;
-        //     coachTax = Math.Round(coachTax, 2);
-        //     Tax = coachTax;
-        //     double totalAmount = Price + coachTax;
-        //     TotalAmount = Math.Round(totalAmount, 2);
-        // }
         
-        // else if(TravelClass == "Business")
-        // {
-        //     double businessPrice = travelClass["Business"];
-        //     Price = businessPrice;
-        //     double businessTax = Price * Tax;
-        //     businessTax = Math.Round(businessTax, 2);
-        //     Tax = businessTax;
-        //     double totalAmount = Price + businessTax;
-        //     TotalAmount = Math.Round(totalAmount, 2);
-        // }
-
-        // else if(TravelClass == "Premium")
-        // {
-        //     double premiumPrice = travelClass["Premium"];
-        //     Price = premiumPrice;
-        //     double premiumTax = Price * Tax;
-        //     premiumTax = Math.Round(premiumTax, 2);
-        //     Tax = premiumTax;
-        //     double totalAmount = Price + premiumTax;
-        //     TotalAmount = Math.Round(totalAmount, 2);
-        // }
-
-        //  else if(TravelClass == "Roomette")
-        // {
-        //     double roomettePrice = travelClass["Roomette"];
-        //     Price = roomettePrice;
-        //     double roometteTax = Price * Tax;
-        //     roometteTax = Math.Round(roometteTax, 2);
-        //     Tax = roometteTax;
-        //     double totalAmount = Price + roometteTax;
-        //     TotalAmount = Math.Round(totalAmount, 2);
-        // }
-
-        //  else if(TravelClass == "Room")
-        // {
-        //     double roomPrice = travelClass["Room"];
-        //     Price = roomPrice;
-        //     double roomTax = Price * Tax;
-        //     roomTax = Math.Round(roomTax, 2);
-        //     Tax = roomTax;
-        //     double totalAmount = Price + roomTax;
-        //     TotalAmount = Math.Round(totalAmount, 2);
-        // }
-
-        // else
-        // {
-        //     double familyPrice = travelClass["Family Room"];
-        //     Price = familyPrice;
-        //     double familyTax = Price * Tax;
-        //     familyTax = Math.Round(familyTax, 2);
-        //     Tax = familyTax;
-        //     double totalAmount = Price + familyTax;
-        //     TotalAmount = Math.Round(totalAmount, 2);
-        // }
-
-        var receipt = new Receipt(Price, Tax, Origin, Destination, TravelClass, date);
+        var receipt = new Receipt(Price, tax, Origin, Destination, TravelClass, date);
         _allReceipts.Add(receipt);
         return TotalAmount;
     }
@@ -133,10 +55,10 @@ public class Ticket
     public string getReceipt()
     {
         var report = new System.Text.StringBuilder();
-        report.AppendLine("Price\tTax\tTotal\tOrigin\t\t\tStop\t\tTravel Class\tDate");
+        report.AppendLine("Price\tTax\tTotal\tOrigin\t\t\tStop\t\t\tTravel Class\tDate");
         foreach(var item in _allReceipts)
         {
-            report.AppendLine($"{item.Price}\t{item.Tax}\t{TotalAmount}\t{item.Origin}\t{item.Destination}\t{item.TravelClass}\t{item.date.ToShortDateString()}");
+            report.AppendLine($"{item.Price}\t{item.tax}\t{TotalAmount}\t{item.Origin}\t\t{item.Destination}\t\t{item.TravelClass}\t{item.date.ToShortDateString()}");
         }
 
         return report.ToString();

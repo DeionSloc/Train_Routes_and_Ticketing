@@ -1,18 +1,23 @@
 ﻿﻿using Locomotive;
 
-var train1 = new RollingStock(60, "Acela", "Jersey Sights");
-
 var ticket1 = new Ticket("Virginia Beach, VA", "New York, NY", "Premium");
 var ticket2 = new Ticket("Raleigh, NC", "Yonkers, NY", "Business");
-var ticket3 = new Ticket("Atlanta, Georgia,", "Miami, FL", "Room");
+var ticket3 = new Ticket("Atlanta, Georgia", "Miami, FL", "Room");
+var ticket4 = new Ticket("Orlando, FL", "Charleston, SC", "Coach");
+var ticket5 = new Ticket("Richmond, VA", "Pittsburgh, PA", "Family Room");
+var ticket6 = new Ticket("Columbus, OH", "Aurora, CO", "Roomette");
+
 ticket1.purchaseTicket(DateTime.Now);
 ticket2.purchaseTicket(DateTime.Today);
 ticket3.purchaseTicket(DateTime.Now);
-
-Console.WriteLine($"Your ticket number is: {ticket1.ticketNumber}, and your total for the trip will be {ticket1.TotalAmount}. You will be traveling to {ticket1.Destination} in {ticket1.TravelClass} class");
-
-Console.WriteLine($"Your ticket number is: {ticket2.ticketNumber}, and your total for the trip will be {ticket2.TotalAmount}. You will be traveling to {ticket2.Destination} in {ticket2.TravelClass} class");
+ticket4.purchaseTicket(DateTime.Today);
+ticket5.purchaseTicket(DateTime.Today);
+ticket6.purchaseTicket(DateTime.Today);
 
 Console.WriteLine(ticket1.getReceipt());
 Console.WriteLine(ticket2.getReceipt());
 Console.WriteLine(ticket3.getReceipt());
+Console.WriteLine(ticket4.getReceipt());
+Console.WriteLine(ticket5.getReceipt());
+Console.WriteLine(ticket6.getReceipt());
+
